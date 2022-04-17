@@ -1,10 +1,10 @@
-class Spaceship extends Phaser.GameObjects.Sprite {
+class Shark extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
         // add object to existing scene
         scene.add.existing(this);
         this.points = pointValue
-        this.moveSpeed = game.settings.spaceshipSpeed;
+        this.moveSpeed = game.settings.sharkSpeed;
     }
 
     update() {
