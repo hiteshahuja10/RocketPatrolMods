@@ -12,13 +12,9 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        //this.add.text(20, 20, "Rocket Patrol Menu");
-        //this.scene.start("playScene");
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '24px',
-            //backgroundColor: '#F3B141',
-            //color: '#843605',
             backgroundColor: '#f1a0ff',
             color: '#1823ff',
             align: 'right',
@@ -30,9 +26,6 @@ class Menu extends Phaser.Scene {
         }
         this.beach = this.add.tileSprite(0, 0, 640, 480, 'beach').setOrigin(0, 0);
         //show menu text
-        //this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL',
-            //menuConfig).setOrigin(0.5);
-
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 
             'P1: Use (A) & (D) to move & (W) to fire', menuConfig).setOrigin(0.5);
             
