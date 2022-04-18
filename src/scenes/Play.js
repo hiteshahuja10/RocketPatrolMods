@@ -18,13 +18,13 @@ class Play extends Phaser.Scene {
         // blue UI background
         this.add.rectangle(0, borderUISize, game.config.width, (borderUISize * 2)-5, 
             0x00EED1).setOrigin(0, 0);
-        // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000000).setOrigin(0, 0);
+        // purple borders
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x9fa8da).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 
-            0x000000).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000000).setOrigin(0, 0);
+            0x9fa8da).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x9fa8da).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height,
-            0x000000).setOrigin(0, 0);
+            0x9fa8da).setOrigin(0, 0);
 
         // add rocket (p1)
         //0.5
@@ -48,11 +48,7 @@ class Play extends Phaser.Scene {
         this.p2Rocket.Right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.p1Rocket.Fire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.p2Rocket.Fire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        //keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        //keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        //keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        //keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         // animation config
         this.anims.create({
@@ -63,6 +59,12 @@ class Play extends Phaser.Scene {
 
         this.p1Score = 0;
         this.p2Score = 0;
+        if (game.settings.gameTimer == 60){
+            this.game_time = 60;
+        }
+        else{
+            this.game_time = 45;
+        }
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -76,10 +78,18 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+        let timeConfig = {
+            fontFamily: 'Courier',
+            fontSize: '32px',
+            color: "#000000",
+        }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding, 
             this.p1Score, scoreConfig);
         this.scoreRight = this.add.text(borderUISize*15+15, borderUISize + borderPadding, 
             this.p2Score, scoreConfig);
+
+        this.gameTime = this.add.text(game.config.width/2-20, borderUISize + borderPadding, this.game_time, timeConfig);
+        this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.checkTime, callbackScope: this, loop: true });
 
         // GAME OVER flag
         this.gameOver = false;
@@ -88,7 +98,7 @@ class Play extends Phaser.Scene {
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             //'Press (R) to Restart or ← for Menu'
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ↑ for Menu',
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu',
                 scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
@@ -159,6 +169,13 @@ class Play extends Phaser.Scene {
                 return true;
         } else {
             return false;
+        }
+    }
+
+    checkTime(){
+        this.game_time -= 1;
+        if (!this.gameOver){
+            this.gameTime.setText((this.game_time));
         }
     }
 
