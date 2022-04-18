@@ -59,7 +59,7 @@ class Play extends Phaser.Scene {
 
         this.p1Score = 0;
         this.p2Score = 0;
-        if (game.settings.gameTimer == 60){
+        if (game.settings.gameTimer == 60000){
             this.game_time = 60;
         }
         else{
